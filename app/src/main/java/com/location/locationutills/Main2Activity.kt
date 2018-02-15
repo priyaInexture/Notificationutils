@@ -33,7 +33,7 @@ class Main2Activity : AppCompatActivity() {
 
         }
         mBinding.btn2.setOnClickListener {
-            LocationTracker.removeListener(listener1)
+            LocationTracker.removeLocationListener(listener1)
             Log.d("Stop", "onCreate: STOP1")
 
             Toast.makeText(applicationContext, "Stop", Toast.LENGTH_LONG).show()
@@ -51,7 +51,7 @@ class Main2Activity : AppCompatActivity() {
                     Toast.makeText(this@Main2Activity, "Location Listener Working..!!", Toast.LENGTH_SHORT).show()
                 }
             }
-            LocationTracker.addListener(listener1)
+            LocationTracker.addLocationListener(listener1)
         }
 
         //Attach multiple listener in single activity
@@ -67,7 +67,7 @@ class Main2Activity : AppCompatActivity() {
 
 
         mBinding.btn5.setOnClickListener {
-            LocationTracker.removeListener(listener2)
+            LocationTracker.removeLocationListener(listener2)
             Log.d("stop", "onCreate: STOP2 ")
 
             Toast.makeText(applicationContext, "Part 2 ....Stop2", Toast.LENGTH_LONG).show()
@@ -84,7 +84,7 @@ class Main2Activity : AppCompatActivity() {
                     Toast.makeText(this@Main2Activity, " Part 2 Location Listener Working..!!", Toast.LENGTH_SHORT).show()
                 }
             }
-            LocationTracker.addListener(listener2)
+            LocationTracker.addLocationListener(listener2)
         }
         mBinding.btn7.setOnClickListener {
             LocationTracker.removeAllListener()

@@ -11,14 +11,12 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.OnMapReadyCallback
 import android.support.v4.app.FragmentActivity
 import android.util.Log
-import java.util.ArrayList
 
 class MapActivity : FragmentActivity(), OnMapReadyCallback {
 
 
     private var mMap: GoogleMap? = null
     lateinit var gps: LocationTracker
-    var removeLocations: ArrayList<CustomLocationListener> = arrayListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +44,7 @@ class MapActivity : FragmentActivity(), OnMapReadyCallback {
             mMap!!.addMarker(MarkerOptions().position(mLocation).title("Tutorialspoint.com"))
             mMap!!.moveCamera(CameraUpdateFactory.newLatLng(mLocation))
         }
-        gps.addListener(object : CustomLocationListener {
+        gps.addLocationListener(object : CustomLocationListener {
             override fun onLocationChage(mLocation: Location?) {
                 mMap?.isMyLocationEnabled = true
 //                mMap?.clear()

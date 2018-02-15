@@ -24,7 +24,8 @@ class MainActivity : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        LocationTracker.initTracker(this@MainActivity)
+        LocationTracker.initTracker(this)
+
 
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         checkPermissions(arrayListOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION))
@@ -32,9 +33,12 @@ class MainActivity : AppCompatActivity() {
         mBinding.btn.setOnClickListener {
 
             // check if GPS enabled
-            if (LocationTracker.getLastKnownLocation ()) {
+            if (LocationTracker.getLastKnownLocation()) {
                 val latitude = LocationTracker.getLatitude()
+                AppPreference.lat = latitude.toString()
                 val longitude = LocationTracker.getLongitude()
+                AppPreference.long = longitude.toString()
+
                 mBinding.tvResult.text = "lat :" + latitude.toString() + "long :" + longitude.toString()
                 // \n is for new line
                 Toast.makeText(applicationContext, "Your Location is - \nLat: $latitude\nLong: $longitude", Toast.LENGTH_LONG).show()
@@ -45,7 +49,7 @@ class MainActivity : AppCompatActivity() {
 
         mBinding.btnStop.setOnClickListener {
             //            LocationTracker.stopUsingGPS(listener)
-            LocationTracker.removeListener(listener)
+            LocationTracker.removeLocationListener(listener)
             Log.d(TAG, "onCreate: Stop GPS")
         }
 
@@ -54,9 +58,10 @@ class MainActivity : AppCompatActivity() {
             listener = object : CustomLocationListener {
                 override fun onLocationChage(mLocation: Location?) {
                     Log.d(TAG, "onLocationChage: .............$mLocation")
+                    AppPreference.location = mLocation.toString()
                 }
             }
-            LocationTracker.addListener(listener)
+            LocationTracker.addLocationListener(listener)
         }
         mBinding.btnNext.setOnClickListener {
             val intent = Intent(this@MainActivity, Main2Activity::class.java)

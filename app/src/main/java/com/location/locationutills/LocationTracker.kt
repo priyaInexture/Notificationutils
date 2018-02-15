@@ -6,6 +6,10 @@ import android.location.Location
 import android.content.Intent
 import android.os.Bundle
 import android.app.AlertDialog
+import android.arch.lifecycle.Lifecycle
+import android.arch.lifecycle.LifecycleObserver
+import android.arch.lifecycle.LifecycleOwner
+import android.arch.lifecycle.OnLifecycleEvent
 import android.content.DialogInterface
 import android.location.LocationManager
 import android.location.LocationListener
@@ -48,7 +52,8 @@ object LocationTracker : LocationListener {
     // Declaring a Location Manager
     lateinit var locationManager: LocationManager
 
-    fun initTracker(context: Context) {
+    fun initTracker( context: Context) {
+
         this.mContext = context
         Log.d(TAG, "initTracker: init tracker....")
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(mContext)
@@ -111,28 +116,34 @@ object LocationTracker : LocationListener {
      * @return location
      * */
 
+    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     @SuppressLint("MissingPermission")
-    fun addListener(listener: CustomLocationListener) {
+    fun addLocationListener(listener: CustomLocationListener) {
+        try {
 
-        if (location != null) {
+            if (location != null) {
 
-            locationRequest?.interval = UPDATE_INTERVAL.toLong()
-            locationRequest?.fastestInterval = FASTEST_INTERVAL.toLong()
-            locationRequest?.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+                locationRequest?.interval = UPDATE_INTERVAL.toLong()
+                locationRequest?.fastestInterval = FASTEST_INTERVAL.toLong()
+                locationRequest?.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
 
-            val locationCallback = object : LocationCallback() {
-                override fun onLocationResult(locationResult: LocationResult?) {
-                    Log.d(TAG, "onLocationResult: .................." + location!!.longitude + "....." + location!!.latitude + "........" + location!!.time)
-                    for (location in locationResult!!.locations) {
-                        listener.onLocationChage(location)
+                val locationCallback = object : LocationCallback() {
+                    override fun onLocationResult(locationResult: LocationResult?) {
+                        Log.d(TAG, "onLocationResult: .................." + location!!.longitude + "....." + location!!.latitude + "........" + location!!.time)
+                        for (location in locationResult!!.locations) {
+                            listener.onLocationChage(location)
+                        }
                     }
                 }
-            }
 
-            mStoredCallbackList.add(locationCallback)
-            mCusromStoredCallbackList.add(listener)
-            Log.d(TAG, "onLocationResult: Temp$mStoredCallbackList..........$mCusromStoredCallbackList")
-            mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null)
+                mStoredCallbackList.add(locationCallback)
+                mCusromStoredCallbackList.add(listener)
+                Log.d(TAG, "onLocationResult: Temp$mStoredCallbackList..........$mCusromStoredCallbackList")
+                mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null)
+            }
+        } catch (e: Exception) {
+            Log.d(TAG, "addListener: Error" + e)
+
         }
     }
 
@@ -140,13 +151,14 @@ object LocationTracker : LocationListener {
      * Stop using GPS listener
      * Calling this function will stop using GPS in your app
      */
-    fun removeListener(removeAllListener: CustomLocationListener) {
+    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+    fun removeLocationListener(removeAllListener: CustomLocationListener) {
 
         locationManager = mContext.getSystemService(LOCATION_SERVICE) as LocationManager
         try {
             /* here we created two arraylist ,1st one is for custom location listener callback and 2nd one is for manual callback
-      listener ,bcz we get listener from custom location and we have to remove from manual listener so both
-      stored in a array and find the index of each ,using index we can remove listener...*/
+              listener ,bcz we get listener from custom location and we have to remove from manual listener so both
+              stored in a array and find the index of each ,using index we can remove listener...*/
             val mListenerIndex = mCusromStoredCallbackList.indexOf(removeAllListener)
 
             if (locationManager != null) {
