@@ -2,15 +2,18 @@ package com.location.locationutills
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.databinding.DataBindingUtil
 import android.location.Location
 import android.location.LocationListener
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
+import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
+import com.location.locationutills.databinding.ActivityMain3Binding
 
 class Main3Activity : AppCompatActivity() {
 
@@ -30,10 +33,13 @@ class Main3Activity : AppCompatActivity() {
         LocationTrack.bindLocationListenerIn(this, mGpsListener, applicationContext)
     }
 
+    lateinit var mBinding: ActivityMain3Binding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main3)
-
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main3)
+//        mBinding.btnLife.setOnClickListener { startActivity(Intent(this,LifecycleActivity::class.java)) }
+        mBinding.btn.setOnClickListener { startActivity(Intent(this@Main3Activity, MainActivity::class.java)) }
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
                         Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,

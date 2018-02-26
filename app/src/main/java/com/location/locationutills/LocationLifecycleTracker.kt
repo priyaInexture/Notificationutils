@@ -1,22 +1,22 @@
 package com.location.locationutills
 
 import android.annotation.SuppressLint
-import android.app.AlertDialog
-import android.content.ContentValues.TAG
+import android.content.ContentValues
 import android.content.Context
-import android.content.Context.LOCATION_SERVICE
-import android.content.DialogInterface
-import android.content.Intent
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
+import android.location.LocationManager.NETWORK_PROVIDER
 import android.os.Bundle
-import android.provider.Settings
 import android.util.Log
 import com.google.android.gms.location.*
 
-@SuppressLint("Registered", "StaticFieldLeak")
-object LocationTracker : LocationListener {
+@SuppressLint("StaticFieldLeak")
+/**
+ * Created by Android on 2/16/2018.
+ */
+
+object LocationLifecycleTracker : LocationListener{
 
     private lateinit var mContext: Context
     private lateinit var mFusedLocationClient: FusedLocationProviderClient
@@ -48,21 +48,20 @@ object LocationTracker : LocationListener {
     // Declaring a Location Manager
     lateinit var locationManager: LocationManager
 
+
     fun initTracker(context: Context) {
 
         this.mContext = context
-        Log.d(TAG, "initTracker: init tracker....")
+        Log.d(ContentValues.TAG, "initTracker: init tracker....")
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(mContext)
         getLocation()
     }
 
-    /**
-     * It Returns lat long using FusedLocationClient
-     **/
+
     @SuppressLint("MissingPermission")
     private fun getLocation(): Location? {
         try {
-            locationManager = mContext.getSystemService(LOCATION_SERVICE) as LocationManager
+            locationManager = mContext.getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
             // getting GPS status
             isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
@@ -82,7 +81,7 @@ object LocationTracker : LocationListener {
                                 .getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
 
                         requestLocationUpdates(
-                                LocationManager.NETWORK_PROVIDER,
+                                NETWORK_PROVIDER,
                                 MIN_TIME_BW_UPDATES,
                                 MIN_DISTANCE_CHANGE_FOR_UPDATES, this)
 
@@ -113,9 +112,8 @@ object LocationTracker : LocationListener {
      * */
 
     @SuppressLint("MissingPermission")
-    fun addLocationListener(listener: CustomLocationListener) {
+    fun addLocationListener( listener: CustomLocationListener) {
         try {
-
             if (location != null) {
 
                 locationRequest?.interval = UPDATE_INTERVAL.toLong()
@@ -124,7 +122,7 @@ object LocationTracker : LocationListener {
 
                 val locationCallback = object : LocationCallback() {
                     override fun onLocationResult(locationResult: LocationResult?) {
-                        Log.d(TAG, "onLocationResult: .................." + location!!.longitude + "....." + location!!.latitude + "........" + location!!.time)
+                        Log.d(ContentValues.TAG, "onLocationResult: .................." + location!!.longitude + "....." + location!!.latitude + "........" + location!!.time)
                         for (location in locationResult!!.locations) {
                             listener.onLocationChage(location)
                         }
@@ -133,11 +131,11 @@ object LocationTracker : LocationListener {
 
                 mStoredCallbackList.add(locationCallback)
                 mCusromStoredCallbackList.add(listener)
-                Log.d(TAG, "onLocationResult: Temp$mStoredCallbackList..........$mCusromStoredCallbackList")
+                Log.d(ContentValues.TAG, "onLocationResult: Temp$mStoredCallbackList..........$mCusromStoredCallbackList")
                 mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null)
             }
         } catch (e: Exception) {
-            Log.d(TAG, "addListener: Error" + e)
+            Log.d(ContentValues.TAG, "addListener: Error" + e)
 
         }
     }
@@ -146,9 +144,8 @@ object LocationTracker : LocationListener {
      * Stop using GPS listener
      * Calling this function will stop using GPS in your app
      */
-    fun removeLocationListener(removeAllListener: CustomLocationListener) {
-
-        locationManager = mContext.getSystemService(LOCATION_SERVICE) as LocationManager
+    fun removeLocationListener( removeAllListener: CustomLocationListener) {
+        locationManager = mContext.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         try {
             /* here we created two arraylist ,1st one is for custom location listener callback and 2nd one is for manual callback
               listener ,bcz we get listener from custom location and we have to remove from manual listener so both
@@ -159,91 +156,13 @@ object LocationTracker : LocationListener {
                 mFusedLocationClient.removeLocationUpdates(mStoredCallbackList[mListenerIndex])
             }
         } catch (e: Exception) {
-            Log.d(TAG, "removeListener: Error" + e)
+            Log.d(ContentValues.TAG, "removeListener: Error" + e)
         }
-    }
-
-    /**
-     * Stop All GPS listener*/
-    fun removeAllListener() {
-        locationManager = mContext.getSystemService(LOCATION_SERVICE) as LocationManager
-        try {
-            for (i in mStoredCallbackList) {
-                mFusedLocationClient.removeLocationUpdates(i)
-            }
-            mStoredCallbackList.clear()
-            mCusromStoredCallbackList.clear()
-        } catch (e: Exception) {
-            println("Exception" + e)
-        }
-
-    }
-
-    /**
-     * Function to get latitude
-     */
-
-    fun getLatitude(): Double {
-        if (location != null) {
-            latitude = location!!.latitude
-        }
-
-        // return latitude
-        return latitude
-    }
-
-    /**
-     * Function to get longitude
-     */
-    fun getLongitude(): Double {
-        if (location != null) {
-            longitude = location!!.longitude
-        }
-
-        // return longitude
-        return longitude
-    }
-
-    /**
-     * Function to check GPS/wifi enabled for getLocation
-     * @return boolean
-     */
-    fun getLastKnownLocation(): Boolean {
-        return this.canGetLocation
-    }
-
-    /**
-     * Function to show settings alert dialog
-     * On pressing Settings button will lauch Settings Options
-     */
-
-    fun showSettingsAlert() {
-
-        val alertDialog = AlertDialog.Builder(mContext)
-
-        // Setting Dialog Title
-        alertDialog.setTitle("GPS is settings")
-
-        // Setting Dialog Message
-        alertDialog.setMessage("GPS is not enabled. Do you want to go to settings menu?")
-
-        // On pressing Settings button
-        alertDialog.setPositiveButton("Settings", DialogInterface.OnClickListener { dialog, which ->
-            val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-            this.canGetLocation = true
-            mContext.startActivity(intent)
-        })
-
-        // on pressing cancel button
-        alertDialog.setNegativeButton("Cancel", DialogInterface.OnClickListener { dialog, which -> dialog.cancel() })
-
-        // Showing Alert Message
-        alertDialog.show()
     }
 
     override fun onLocationChanged(location: Location) {
         val data = listener.onLocationChage(location)
-        Log.d(TAG, "onLocationChanged: Time interval" + data)
+        Log.d(ContentValues.TAG, "onLocationChanged: Time interval" + data)
     }
 
     override fun onProviderDisabled(provider: String) {}
@@ -254,4 +173,4 @@ object LocationTracker : LocationListener {
 
 }
 
-private fun requestLocationUpdates(networK_PROVIDER: String, miN_TIME_BW_UPDATES: Long, miN_DISTANCE_CHANGE_FOR_UPDATES: Long, gpsTracker: LocationTracker) {}
+private fun requestLocationUpdates(networK_PROVIDER: String, miN_TIME_BW_UPDATES: Long, miN_DISTANCE_CHANGE_FOR_UPDATES: Long, locationLifecycleTracker: LocationLifecycleTracker) {}

@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <uses-feature android:name="android.hardware.location.gps" />
 
@@ -24,7 +25,7 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyBJZXkF6k5Ngwl_bTK8Pe5glK45vu8bw1Q" />
 
-        <activity android:name=".Main3Activity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -33,7 +34,9 @@
         </activity>
         <activity android:name=".Main2Activity" />
         <activity android:name=".MapActivity" />
-        <activity android:name=".MainActivity"/>
+        <activity android:name=".Main3Activity" />
+        <activity android:name=".LifecycleActivity" />
+        <activity android:name=".NotificationActivity"></activity>
     </application>
 
 </manifest>
