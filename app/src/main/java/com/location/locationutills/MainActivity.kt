@@ -32,6 +32,10 @@ class MainActivity : AppCompatActivity() {
         mBinding.btnNotification.setOnClickListener {
             startActivity(Intent(this@MainActivity, NotificationActivity::class.java))
         }
+        mBinding.btnPicker.setOnClickListener {
+            startActivity(Intent(this@MainActivity, PickerActivity::class.java))
+
+        }
     }
 
 

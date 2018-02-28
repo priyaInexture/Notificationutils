@@ -13,55 +13,57 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 fun Context.showNotification(
-        channel_id: String,
-        notification_title: String
-) {
-    val notificationBuilder = NotificationCompat.Builder(this, channel_id)
+        channelId: String,
+        title: String
+): Int {
+    val notificationId = Math.random().toInt()
+    val notificationBuilder = NotificationCompat.Builder(this, channelId)
             .setSmallIcon(R.mipmap.ic_launcher)
-            .setContentTitle(notification_title)
-            .setChannelId(channel_id)
+            .setContentTitle(title)
+            .setChannelId(channelId)
             .setAutoCancel(true)
 
     val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-    notificationManager.notify(Math.random().toInt(), notificationBuilder.build())
-
+    notificationManager.notify(notificationId, notificationBuilder.build())
+    return notificationId
 }
 
 fun Context.showExpandedNotification(
-        channel_id: String,
-        notification_title: String,
-        notification_content: String
-) {
-    val notificationBuilder = NotificationCompat.Builder(this, channel_id)
+        channelId: String,
+        title: String,
+        content: String
+): Int {
+    val notificationId = Math.random().toInt()
+    val notificationBuilder = NotificationCompat.Builder(this, channelId)
             .setSmallIcon(R.mipmap.ic_launcher)
-            .setContentTitle(notification_title)
-            .setChannelId(channel_id)
-            .setContentText(notification_content)
-            .setStyle(NotificationCompat.BigTextStyle().bigText(notification_content))
+            .setContentTitle(title)
+            .setChannelId(channelId)
+            .setContentText(content)
+            .setStyle(NotificationCompat.BigTextStyle().bigText(content))
             .setAutoCancel(true)
 
     val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-    notificationManager.notify(Math.random().toInt(), notificationBuilder.build())
-
+    notificationManager.notify(notificationId, notificationBuilder.build())
+    return notificationId
 }
 
 
-fun Context.showNotificationwithImageURL(
+fun Context.showNotificationwithImageUrl(
 
-        channel_id: String,
-        notification_title: String,
-        notification_content: String,
+        channelId: String,
+        title: String,
+        content: String,
         url: String
-) {
+): Int {
 
-    val notificationBuilder = NotificationCompat.Builder(this, channel_id)
+    val notificationId = Math.random().toInt()
+    val notificationBuilder = NotificationCompat.Builder(this, channelId)
             .setSmallIcon(R.mipmap.ic_launcher)
-            .setContentTitle(notification_title)
-            .setContentText(notification_content)
+            .setContentTitle(title)
+            .setContentText(content)
             .setAutoCancel(true)
-
 
     val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
@@ -83,58 +85,80 @@ fun Context.showNotificationwithImageURL(
         override fun onPostExecute(result: Bitmap) {
             notificationBuilder.setLargeIcon(result)
             notificationBuilder.setStyle(NotificationCompat.BigPictureStyle().bigPicture(result))
-            notificationManager.notify(Math.random().toInt(), notificationBuilder.build())
+            notificationManager.notify(notificationId, notificationBuilder.build())
 
         }
     }
     ImageDownloadAsyncTask().execute(url)
+    return notificationId
 }
 
 
-fun Context.showNotificationwithImage(
+fun Context.showNotificationwithImageResourse(
 
-        channel_id: String,
-        notification_title: String,
-        notification_content: String,
-        notification_img: Int
-) {
+        channelId: String,
+        title: String,
+        content: String,
+        img: Int
+): Int {
 
-    val notificationBuilder = NotificationCompat.Builder(this, channel_id)
-            .setLargeIcon(BitmapFactory.decodeResource(resources,
-                    notification_img))
+    val notificationId = Math.random().toInt()
+    val notificationBuilder = NotificationCompat.Builder(this, channelId)
+            .setLargeIcon(BitmapFactory.decodeResource(resources, img))
             .setSmallIcon(R.mipmap.ic_launcher)
-            .setContentTitle(notification_title)
-            .setContentText(notification_content)
-            .setStyle(NotificationCompat.BigPictureStyle().bigPicture(BitmapFactory.decodeResource(resources,
-                    notification_img)))
+            .setContentTitle(title)
+            .setContentText(content)
+            .setStyle(NotificationCompat.BigPictureStyle().bigPicture(BitmapFactory.decodeResource(resources, img)))
             .setAutoCancel(true)
 
+    val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    notificationManager.notify(notificationId, notificationBuilder.build())
+    return notificationId
+}
+
+fun Context.showNotificationwithImageDrawable(
+
+        channelId: String,
+        title: String,
+        content: String,
+        img: Bitmap
+): Int {
+
+    val notificationId = Math.random().toInt()
+    val notificationBuilder = NotificationCompat.Builder(this, channelId)
+            .setLargeIcon(img)
+            .setSmallIcon(R.mipmap.ic_launcher)
+            .setContentTitle(title)
+            .setContentText(content)
+            .setStyle(NotificationCompat.BigPictureStyle().bigPicture(img))
+            .setAutoCancel(true)
 
     val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-    notificationManager.notify(Math.random().toInt(), notificationBuilder.build())
-
+    notificationManager.notify(notificationId, notificationBuilder.build())
+    return notificationId
 }
 
 fun Context.showNotificationwithInboxstyle(
-        channel_id: String,
-        notification_title: String,
-        notification_content: String,
+        channelId: String,
+        title: String,
+        content: String,
         strings: List<String>,
         contentTitle: String,
         summaryText: String
 
 
-) {
+): Int {
     var addString = StringBuilder()
     for (i in strings) {
         addString.append(i)
     }
 
-    val notificationBuilder = NotificationCompat.Builder(this, channel_id)
+    val notificationId = Math.random().toInt()
+    val notificationBuilder = NotificationCompat.Builder(this, channelId)
             .setSmallIcon(R.mipmap.ic_launcher)
-            .setContentTitle(notification_title)
-            .setChannelId(channel_id)
-            .setContentText(notification_content)
+            .setContentTitle(title)
+            .setChannelId(channelId)
+            .setContentText(content)
             .setAutoCancel(true)
     var notificationCompact = NotificationCompat.InboxStyle().setBigContentTitle(contentTitle).setSummaryText(summaryText)
 
@@ -145,6 +169,6 @@ fun Context.showNotificationwithInboxstyle(
 
     val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-    notificationManager.notify(Math.random().toInt(), notificationBuilder.build())
-
+    notificationManager.notify(notificationId, notificationBuilder.build())
+    return notificationId
 }

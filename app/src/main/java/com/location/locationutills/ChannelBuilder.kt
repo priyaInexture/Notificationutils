@@ -10,10 +10,6 @@ import android.os.Build
 import android.support.annotation.RequiresApi
 import android.util.Log
 
-/**
- * Created by Android on 2/26/2018.
- */
-
 class ChannelBuilder(base: Context) : ContextWrapper(base) {
 
 
