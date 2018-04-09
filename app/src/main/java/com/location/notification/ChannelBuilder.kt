@@ -1,4 +1,4 @@
-package com.location.locationutills
+package com.location.notification
 
 import android.app.Notification
 import android.app.NotificationChannel

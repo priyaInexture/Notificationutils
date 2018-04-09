@@ -49,6 +49,7 @@ dependencies {
     //kot pref
     compile 'com.chibatching.kotpref:kotpref:2.2.0'
     compile 'com.chibatching.kotpref:initializer:2.2.0'
+    compile 'com.github.nitrico.lastadapter:lastadapter:2.3.0'
 }
 repositories {
     mavenCentral()

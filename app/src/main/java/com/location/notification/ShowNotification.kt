@@ -1,4 +1,4 @@
-package com.location.locationutills
+package com.location.notification
 
 import android.app.NotificationManager
 import android.content.ContentValues
@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory
 import android.os.AsyncTask
 import android.support.v4.app.NotificationCompat
 import android.util.Log
+import com.location.locationutills.R
 import java.lang.StringBuilder
 import java.net.HttpURLConnection
 import java.net.URL

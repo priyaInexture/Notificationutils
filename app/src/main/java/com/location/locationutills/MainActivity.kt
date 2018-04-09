@@ -16,6 +16,7 @@ import com.livinglifetechway.quickpermissions.annotations.OnPermissionsPermanent
 import com.livinglifetechway.quickpermissions.annotations.WithPermissions
 import com.livinglifetechway.quickpermissions.util.QuickPermissionsRequest
 import com.location.locationutills.databinding.ActivityMainBinding
+import com.location.notification.NotificationActivity
 
 
 class MainActivity : AppCompatActivity() {

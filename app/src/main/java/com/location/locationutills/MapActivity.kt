@@ -3,14 +3,14 @@ package com.location.locationutills
 import android.annotation.SuppressLint
 import android.location.Location
 import android.os.Bundle
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.OnMapReadyCallback
 import android.support.v4.app.FragmentActivity
 import android.util.Log
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 
 class MapActivity : FragmentActivity(), OnMapReadyCallback {
 
@@ -37,7 +37,7 @@ class MapActivity : FragmentActivity(), OnMapReadyCallback {
 
             val lat = gps.getLatitude().toString()
             val lng = gps.getLongitude().toString()
-            Log.d(TAG, "onMapReady: Map Lat Long" + lat + "***" + lng)
+            Log.d(TAG, "onMapReady: Map Lat Long$lat***$lng")
 
             // Add a marker in Sydney and move the camera
             val mLocation = LatLng(lat.toDouble(), lng.toDouble())
@@ -56,6 +56,6 @@ class MapActivity : FragmentActivity(), OnMapReadyCallback {
     }
 
     companion object {
-        val TAG: String = "Map Activity"
+        val TAG: String = MapActivity::class.java.canonicalName
     }
 }

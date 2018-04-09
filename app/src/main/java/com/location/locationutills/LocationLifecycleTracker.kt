@@ -16,7 +16,7 @@ import com.google.android.gms.location.*
  * Created by Android on 2/16/2018.
  */
 
-object LocationLifecycleTracker : LocationListener{
+object LocationLifecycleTracker : LocationListener {
 
     private lateinit var mContext: Context
     private lateinit var mFusedLocationClient: FusedLocationProviderClient
@@ -112,7 +112,7 @@ object LocationLifecycleTracker : LocationListener{
      * */
 
     @SuppressLint("MissingPermission")
-    fun addLocationListener( listener: CustomLocationListener) {
+    fun addLocationListener(listener: CustomLocationListener) {
         try {
             if (location != null) {
 
@@ -144,7 +144,7 @@ object LocationLifecycleTracker : LocationListener{
      * Stop using GPS listener
      * Calling this function will stop using GPS in your app
      */
-    fun removeLocationListener( removeAllListener: CustomLocationListener) {
+    fun removeLocationListener(removeAllListener: CustomLocationListener) {
         locationManager = mContext.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         try {
             /* here we created two arraylist ,1st one is for custom location listener callback and 2nd one is for manual callback

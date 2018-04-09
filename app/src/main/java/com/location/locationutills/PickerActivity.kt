@@ -57,7 +57,7 @@ class PickerActivity : AppCompatActivity() {
 
         if (packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_FRONT)) {
             val intent = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
-            val mediaFile = File(
+            val mediaFile: File = File(
                     Environment.getExternalStorageDirectory().absolutePath + "/myvideo.mp4")
             videoUri = Uri.fromFile(mediaFile)
             Log.d(TAG, "recorded video uri........................." + videoUri)

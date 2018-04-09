@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <uses-feature android:name="android.hardware.location.gps" />
 
@@ -26,7 +26,7 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyBJZXkF6k5Ngwl_bTK8Pe5glK45vu8bw1Q" />
 
-        <activity android:name=".PickerActivity">
+        <activity android:name=".LastAdapterActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -37,8 +37,10 @@
         <activity android:name=".MapActivity" />
         <activity android:name=".Main3Activity" />
         <activity android:name=".LifecycleActivity" />
-        <activity android:name=".NotificationActivity" />
-        <activity android:name=".MainActivity"/>
+        <activity android:name=".PickerActivity" />
+        <activity android:name=".MainActivity" />
+        <activity android:name="com.location.notification.NotificationActivity" />
+        <!-- This service is only used on devices with API v17+ -->
     </application>
 
 </manifest>

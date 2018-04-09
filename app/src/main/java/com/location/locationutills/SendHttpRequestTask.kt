@@ -12,7 +12,7 @@ import java.net.URL
  * Created by Android on 2/27/2018.
  */
 
- class SendHttpRequestTask : AsyncTask<String, Void, Bitmap>() {
+class SendHttpRequestTask : AsyncTask<String, Void, Bitmap>() {
     override fun doInBackground(vararg params: String): Bitmap? {
         try {
             val url = URL("http://xxx.xxx.xxx/image.jpg")

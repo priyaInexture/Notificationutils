@@ -1,19 +1,25 @@
-package com.location.locationutills
+package com.location.notification
 
+import android.app.NotificationManager
 import android.databinding.DataBindingUtil
 import android.graphics.BitmapFactory
+import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import com.location.locationutills.R
 import com.location.locationutills.databinding.ActivityNotificationBinding
 
 class NotificationActivity : AppCompatActivity() {
+     var manager: NotificationManager? = null
 
     lateinit var mBinding: ActivityNotificationBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBinding = DataBindingUtil.setContentView(this@NotificationActivity, R.layout.activity_notification)
-//        ChannelBuilder(this).createChannels("11", "Default")
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            ChannelBuilder(this).createChannels("11", "Default")
+        }
         Log.d("Notification", "Channel created..!!!!!!!!!!!!!!!!!!!!!")
         mBinding.btnNotification.setOnClickListener {
             showNotification("11", "Simple Notification")
@@ -35,6 +41,4 @@ class NotificationActivity : AppCompatActivity() {
         }
 
     }
-
-
 }
