@@ -3,15 +3,11 @@
     package="com.location.locationutills">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
 
     <uses-feature android:name="android.hardware.location.gps" />
-
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:icon="@mipmap/ic_launcher"
@@ -19,28 +15,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <!-- Google MAP API key -->
-
-        <meta-data
-            android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyBJZXkF6k5Ngwl_bTK8Pe5glK45vu8bw1Q" />
-
-        <activity android:name=".LastAdapterActivity">
+        <activity android:name="com.location.notification.NotificationActivity" />
+        <!-- This service is only used on devices with API v17+ -->
+        <activity android:name="com.location.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Main2Activity" />
-        <activity android:name=".MapActivity" />
-        <activity android:name=".Main3Activity" />
-        <activity android:name=".LifecycleActivity" />
-        <activity android:name=".PickerActivity" />
-        <activity android:name=".MainActivity" />
-        <activity android:name="com.location.notification.NotificationActivity" />
-        <!-- This service is only used on devices with API v17+ -->
+        <activity
+            android:name="com.location.fingerprint.FingerPrintActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity android:name="com.location.easyfingerprint.KeyGeneratorActivity"></activity>
     </application>
 
 </manifest>

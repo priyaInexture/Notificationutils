@@ -11,7 +11,6 @@ import com.location.locationutills.R
 import com.location.locationutills.databinding.ActivityNotificationBinding
 
 class NotificationActivity : AppCompatActivity() {
-     var manager: NotificationManager? = null
 
     lateinit var mBinding: ActivityNotificationBinding
     override fun onCreate(savedInstanceState: Bundle?) {
